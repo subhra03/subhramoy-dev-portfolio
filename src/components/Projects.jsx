@@ -54,6 +54,13 @@ export default function Projects() {
     goToProject(activeIndex + 1);
   }, [activeIndex, goToProject]);
 
+  const handleSelectProject = useCallback(
+    (projectIndex) => {
+      goToProject(projectIndex);
+    },
+    [goToProject],
+  );
+
   useEffect(() => {
     setActiveIndex(0);
   }, [activeFilter]);
@@ -81,14 +88,14 @@ export default function Projects() {
     ).matches;
     const stageWidth = slider.getBoundingClientRect().width;
     const isSmall = stageWidth < 640;
-    const isTiny = stageWidth < 420;
+    const isTiny = stageWidth < 430;
     const gap = isTiny
-      ? Math.min(stageWidth * 0.34, 118)
+      ? Math.min(stageWidth * 0.28, 92)
       : isSmall
         ? Math.min(stageWidth * 0.42, 150)
         : Math.min(stageWidth * 0.23, 310);
     const farGap = isTiny
-      ? Math.min(stageWidth * 0.46, 160)
+      ? Math.min(stageWidth * 0.4, 132)
       : isSmall
         ? Math.min(stageWidth * 0.58, 210)
         : Math.min(stageWidth * 0.38, 520);
@@ -117,13 +124,13 @@ export default function Projects() {
           : absOffset === 1
             ? isSmall
               ? isTiny
-                ? 0.58
+                ? 0.48
                 : 0.7
               : 0.78
             : absOffset === 2
               ? isSmall
                 ? isTiny
-                  ? 0.26
+                  ? 0.2
                   : 0.38
                 : 0.58
               : 0.4;
@@ -136,7 +143,7 @@ export default function Projects() {
           ? 1
           : absOffset === 1
             ? isTiny
-              ? 0.18
+              ? 0.08
               : 0.34
             : absOffset === 2
               ? isTiny
@@ -276,16 +283,8 @@ export default function Projects() {
               <ProjectCard
                 project={project}
                 isActive={index === activeIndex}
-                onSelect={(event) => {
-                  if (
-                    event.target instanceof Element &&
-                    event.target.closest("a")
-                  ) {
-                    return;
-                  }
-
-                  goToProject(index);
-                }}
+                index={index}
+                onSelectProject={handleSelectProject}
                 key={project.id}
               />
             ))}

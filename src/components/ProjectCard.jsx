@@ -1,11 +1,21 @@
-export default function ProjectCard({ project, isActive, onSelect }) {
+import { memo } from "react";
+
+function ProjectCard({ project, isActive, index, onSelectProject }) {
+  const handleSelect = (event) => {
+    if (event.target instanceof Element && event.target.closest("a")) {
+      return;
+    }
+
+    onSelectProject(index);
+  };
+
   return (
     <article
       className={`project-card project-slider-card${isActive ? " is-current" : ""}`}
       data-category={project.categories.join(" ")}
       aria-label={`${project.title} project`}
       aria-current={isActive ? "true" : undefined}
-      onClick={onSelect}
+      onClick={handleSelect}
     >
       <span className="slider-edge slider-edge--left">{project.index}</span>
       <span className="slider-edge slider-edge--right">{project.categoryLabel}</span>
@@ -49,3 +59,5 @@ export default function ProjectCard({ project, isActive, onSelect }) {
     </article>
   );
 }
+
+export default memo(ProjectCard);

@@ -1,14 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import logoImage from "../../asset/logo-160.png";
-
-const navItems = [
-  { href: "#home", label: "Home", id: "home" },
-  { href: "#techstack", label: "Stack", id: "techstack" },
-  { href: "#projects", label: "Projects", id: "projects" },
-  { href: "#about", label: "About", id: "about" },
-  { href: "#contact", label: "Contact", id: "contact" },
-];
+import { navItems } from "../data/navigation";
 
 const desktopNavQuery = "(min-width: 992px)";
 
@@ -23,6 +16,36 @@ export default function Navbar({
   const toggleIconRef = useRef(null);
   const linkRefs = useRef([]);
   const hasSyncedMenuRef = useRef(false);
+
+  useLayoutEffect(() => {
+    const desktopQuery = window.matchMedia(desktopNavQuery);
+
+    const clearDesktopInlineStyles = () => {
+      if (!desktopQuery.matches) {
+        return;
+      }
+
+      const menu = menuRef.current;
+      const links = linkRefs.current.filter(Boolean);
+      const toggleIcon = toggleIconRef.current;
+      const toggleLines = toggleIcon
+        ? gsap.utils.toArray(toggleIcon.querySelectorAll("span"))
+        : [];
+
+      gsap.killTweensOf([menu, ...links, ...toggleLines].filter(Boolean));
+      gsap.set([menu, ...links, ...toggleLines].filter(Boolean), {
+        clearProps: "all",
+      });
+      hasSyncedMenuRef.current = false;
+    };
+
+    clearDesktopInlineStyles();
+    desktopQuery.addEventListener("change", clearDesktopInlineStyles);
+
+    return () => {
+      desktopQuery.removeEventListener("change", clearDesktopInlineStyles);
+    };
+  }, []);
 
   useLayoutEffect(() => {
     const menu = menuRef.current;

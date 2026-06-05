@@ -1,12 +1,5 @@
+import { navItems } from "../data/navigation";
 import { socialLinks } from "../data/socialLinks";
-
-const footerLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#techstack", label: "Stack" },
-  { href: "#projects", label: "Projects" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
-];
 
 export default function Footer({ year }) {
   return (
@@ -22,7 +15,7 @@ export default function Footer({ year }) {
           </div>
 
           <nav className="footer-nav" aria-label="Footer navigation">
-            {footerLinks.map((link, index) => (
+            {navItems.map((link, index) => (
               <a
                 className="footer-nav-link"
                 href={link.href}

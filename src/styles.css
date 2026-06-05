@@ -143,7 +143,7 @@ section[id] {
 }
 
 .split-word {
-  will-change: opacity, transform, filter;
+  will-change: opacity, transform;
 }
 
 .skip-link {
@@ -2082,6 +2082,11 @@ section[id] {
     padding: 0.5rem 0;
   }
 
+  .navbar .container {
+    max-width: 100%;
+    padding-inline: 0.72rem;
+  }
+
   .nav-shell {
     min-height: 3.35rem;
     padding: 0.32rem 0.42rem;
@@ -2096,6 +2101,7 @@ section[id] {
 
   .navbar-brand {
     gap: 0.62rem;
+    max-width: calc(100vw - 6rem);
   }
 
   .brand-title {
@@ -2125,6 +2131,12 @@ section[id] {
     padding: 5.85rem 0 2.65rem;
   }
 
+  .hero .container {
+    max-width: 100%;
+    overflow: hidden;
+    padding-inline: 0.75rem;
+  }
+
   .hero-bg-panel--one {
     top: 14%;
     right: -5rem;
@@ -2152,13 +2164,15 @@ section[id] {
   }
 
   .hero-title {
-    max-width: 100%;
-    font-size: clamp(2.24rem, 11.6vw, 3.35rem);
-    line-height: 1;
+    max-width: min(100%, 10.2ch);
+    font-size: clamp(2.05rem, 9.4vw, 2.95rem);
+    line-height: 1.02;
   }
 
   .hero-copy {
     gap: 0.98rem;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .hero-actions,
@@ -2170,6 +2184,7 @@ section[id] {
 
   .hero-actions .btn,
   .about-actions .btn {
+    min-width: 0;
     width: 100%;
   }
 
@@ -2279,6 +2294,7 @@ section[id] {
 
   .filter-chip {
     flex: 1 1 calc(50% - 0.45rem);
+    min-height: 2.75rem;
     min-width: 0;
     padding-inline: 0.64rem;
   }
@@ -2308,6 +2324,11 @@ section[id] {
   }
 
   .contact-actions-inline .action-chip {
+    min-height: 2.75rem;
+    width: 100%;
+  }
+
+  .contact-actions-inline {
     width: 100%;
   }
 
@@ -2365,11 +2386,16 @@ section[id] {
   .footer-nav-link {
     flex: 1 1 calc(50% - 0.55rem);
     justify-content: center;
+    min-height: 2.85rem;
   }
 
   .about-social-links {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-social-panel {
+    display: none;
   }
 
   .about-social-link {
@@ -2390,9 +2416,30 @@ section[id] {
     padding-bottom: 2.25rem;
   }
 
+  .brand-mark {
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-basis: 2.25rem;
+  }
+
+  .brand-title {
+    max-width: 13.8rem;
+    font-size: 0.8rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.63rem;
+  }
+
+  .navbar-toggler {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
   .hero-title {
-    max-width: 100%;
-    font-size: clamp(2.04rem, 10.8vw, 2.32rem);
+    max-width: min(100%, 10ch);
+    font-size: clamp(1.92rem, 9.2vw, 2.24rem);
+    line-height: 1.03;
   }
 
   .hero-kicker {
@@ -2416,12 +2463,32 @@ section[id] {
     padding: 1rem;
   }
 
+  .about-card img {
+    max-height: 18rem;
+    aspect-ratio: 4 / 3;
+  }
+
   .hero-metrics strong {
     font-size: 1.38rem;
   }
 
   .hero-metrics span {
     font-size: 0.68rem;
+  }
+
+  .hero-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-metrics div {
+    padding: 0.72rem 0.58rem 0.72rem 0;
+  }
+
+  .hero-metrics div:nth-child(3) {
+    grid-column: 1 / -1;
+    padding-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    border-left: 0;
   }
 
   .section-title {
@@ -2444,6 +2511,50 @@ section[id] {
   .footer-social,
   .about-social-links {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 359.98px) {
+  .navbar .container,
+  .hero .container {
+    padding-inline: 0.62rem;
+  }
+
+  .nav-shell {
+    padding-inline: 0.36rem;
+  }
+
+  .brand-title {
+    max-width: 12rem;
+    font-size: 0.76rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.6rem;
+  }
+
+  .hero {
+    padding-top: 5.45rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.82rem, 8.8vw, 2.02rem);
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-metrics div + div,
+  .hero-metrics div:nth-child(3) {
+    padding-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    border-left: 0;
   }
 }
 
@@ -2693,6 +2804,41 @@ section[id] {
     0 0 44px rgba(15, 111, 92, 0.24);
 }
 
+.projects-section .project-slider-card:hover {
+  border-color: rgba(143, 214, 199, 0.42);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04)),
+    #101414;
+  box-shadow:
+    0 0 0 1px rgba(143, 214, 199, 0.18),
+    0 34px 90px rgba(0, 0, 0, 0.44),
+    0 0 42px rgba(15, 111, 92, 0.22);
+  color: #ffffff;
+}
+
+.projects-section .project-slider-card:hover::before {
+  opacity: 0.82;
+}
+
+.projects-section .project-slider-card:hover .project-title {
+  color: #ffffff;
+}
+
+.projects-section .project-slider-card:hover .project-copy {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.projects-section .project-slider-card:hover .project-tags span {
+  background: rgba(143, 214, 199, 0.14);
+  color: #d8fff8;
+}
+
+.projects-section .project-slider-card:hover .project-link {
+  border-color: rgba(143, 214, 199, 0.32);
+  background: rgba(143, 214, 199, 0.13);
+  color: #ffffff;
+}
+
 .projects-section .project-slider-card::before {
   background:
     radial-gradient(circle at 50% 18%, rgba(143, 214, 199, 0.24), transparent 38%),
@@ -2914,7 +3060,7 @@ section[id] {
   }
 
   .projects-section .filter-chip {
-    min-height: 2.6rem;
+    min-height: 2.75rem;
     font-size: 0.82rem;
   }
 
@@ -3082,6 +3228,59 @@ section[id] {
   .slider-nav-button {
     min-height: 2.85rem;
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 359.98px) {
+  .project-slider-shell {
+    margin-inline: -0.12rem;
+    padding: 0.62rem;
+  }
+
+  .project-slider-topline {
+    gap: 0.55rem;
+  }
+
+  .project-slider-shell .project-meta,
+  .project-slider-counter {
+    font-size: 0.72rem;
+  }
+
+  .project-slider-stage {
+    min-height: 22.2rem;
+    margin-inline: -0.62rem;
+    margin-bottom: 0.62rem;
+  }
+
+  .projects-section .project-slider-card {
+    width: min(88vw, 17.2rem);
+    height: 20.85rem;
+  }
+
+  .project-slider-card .project-body {
+    gap: 0.36rem;
+    padding: 0.64rem;
+  }
+
+  .project-slider-card .project-media {
+    height: clamp(7.1rem, 38vw, 8.1rem);
+  }
+
+  .projects-section .project-slider-card .project-title {
+    font-size: 0.9rem;
+  }
+
+  .project-slider-card .project-copy {
+    font-size: 0.76rem;
+  }
+
+  .project-slider-card .project-link {
+    min-height: 2.35rem;
+    font-size: 0.82rem;
+  }
+
+  .project-slider-status {
+    padding: 0.62rem 0.7rem;
   }
 }
 

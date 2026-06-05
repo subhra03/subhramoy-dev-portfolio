@@ -12,11 +12,16 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
 import TechStack from "./components/TechStack";
+import { sectionIds } from "./data/navigation";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
-const sectionIds = ["home", "techstack", "projects", "about", "contact"];
 const smoothEasing = (time) => Math.min(1, 1.001 - 2 ** (-10 * time));
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+const smallViewportQuery = "(max-width: 767.98px)";
+const finePointerQuery = "(hover: hover) and (pointer: fine)";
+const scrollProgressThreshold = 0.002;
 const scrambleGlyphs = "01{}[]<>/#";
 const sectionColorThemes = {
   home: {
@@ -78,16 +83,18 @@ export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const scrollStateRef = useRef({
+    activeSection,
+    isScrolled,
+    scrollProgress,
+    showBackToTop,
+  });
   const year = new Date().getFullYear();
 
   useLayoutEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const isSmallViewport = window.matchMedia("(max-width: 767.98px)").matches;
-    const shouldUseLenis = window.matchMedia(
-      "(hover: hover) and (pointer: fine)",
-    ).matches;
+    const prefersReducedMotion = window.matchMedia(reducedMotionQuery).matches;
+    const isSmallViewport = window.matchMedia(smallViewportQuery).matches;
+    const shouldUseLenis = window.matchMedia(finePointerQuery).matches;
 
     if (prefersReducedMotion) {
       document.documentElement.classList.add("reduced-motion");
@@ -401,14 +408,6 @@ export default function App() {
           0,
         )
         .to(
-          ".hero-bg",
-          {
-            filter: isSmallViewport ? "brightness(0.92)" : "brightness(0.82)",
-            ease: "none",
-          },
-          0,
-        )
-        .to(
           ".hero-scroll-hint",
           {
             autoAlpha: 0,
@@ -437,9 +436,7 @@ export default function App() {
 
       const hero = document.querySelector("#home");
       const heroPanels = gsap.utils.toArray(".hero-bg-panel");
-      const heroParallaxQuery = window.matchMedia(
-        "(hover: hover) and (pointer: fine)",
-      );
+      const heroParallaxQuery = window.matchMedia(finePointerQuery);
 
       if (hero && heroPanels.length > 0 && heroParallaxQuery.matches) {
         const parallaxSettings = [
@@ -659,7 +656,9 @@ export default function App() {
         gsap.set(footerShell, {
           autoAlpha: 0,
           y: isSmallViewport ? 42 : 72,
-          clipPath: "inset(100% 0% 0% 0% round 8px)",
+          ...(isSmallViewport
+            ? {}
+            : { clipPath: "inset(100% 0% 0% 0% round 8px)" }),
         });
         gsap.set(footerItems, { autoAlpha: 0, y: isSmallViewport ? 16 : 24 });
         gsap.set(footerSocialLinks, {
@@ -681,7 +680,9 @@ export default function App() {
           .to(footerShell, {
             autoAlpha: 1,
             y: 0,
-            clipPath: "inset(0% 0% 0% 0% round 8px)",
+            ...(isSmallViewport
+              ? {}
+              : { clipPath: "inset(0% 0% 0% 0% round 8px)" }),
             duration: isSmallViewport ? 0.68 : 0.95,
             ease: "expo.out",
           })
@@ -711,11 +712,9 @@ export default function App() {
           );
       }
 
-      const finePointerQuery = window.matchMedia(
-        "(hover: hover) and (pointer: fine)",
-      );
+      const pointerQuery = window.matchMedia(finePointerQuery);
 
-      if (finePointerQuery.matches) {
+      if (pointerQuery.matches) {
         const heroCtaButtons = gsap.utils.toArray(".hero-actions .btn");
 
         heroCtaButtons.forEach((button) => {
@@ -883,6 +882,15 @@ export default function App() {
   useEffect(() => {
     let scrollTicking = false;
 
+    const updateTrackedState = (key, nextValue, setter) => {
+      if (scrollStateRef.current[key] === nextValue) {
+        return;
+      }
+
+      scrollStateRef.current[key] = nextValue;
+      setter(nextValue);
+    };
+
     const updateScrollState = () => {
       const scrollRange =
         document.documentElement.scrollHeight - window.innerHeight;
@@ -903,10 +911,23 @@ export default function App() {
         }
       });
 
-      setIsScrolled(window.scrollY > 24);
-      setScrollProgress(nextProgress);
-      setShowBackToTop(window.scrollY > window.innerHeight * 0.7);
-      setActiveSection(currentSection);
+      updateTrackedState("isScrolled", window.scrollY > 24, setIsScrolled);
+      updateTrackedState(
+        "showBackToTop",
+        window.scrollY > window.innerHeight * 0.7,
+        setShowBackToTop,
+      );
+      updateTrackedState("activeSection", currentSection, setActiveSection);
+
+      if (
+        Math.abs(scrollStateRef.current.scrollProgress - nextProgress) >
+          scrollProgressThreshold ||
+        nextProgress === 0 ||
+        nextProgress === 1
+      ) {
+        scrollStateRef.current.scrollProgress = nextProgress;
+        setScrollProgress(nextProgress);
+      }
     };
 
     const requestScrollRefresh = () => {
@@ -924,7 +945,10 @@ export default function App() {
 
     const handleHashChange = () => {
       if (window.location.hash) {
-        setActiveSection(window.location.hash.slice(1));
+        const nextSection = window.location.hash.slice(1);
+
+        scrollStateRef.current.activeSection = nextSection;
+        setActiveSection(nextSection);
       }
     };
 
@@ -993,16 +1017,17 @@ export default function App() {
       event.preventDefault();
       setIsMenuOpen(false);
 
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
+      const prefersReducedMotion = window.matchMedia(reducedMotionQuery).matches;
 
       const scrollToSection = (isImmediate = false) => {
         if (window.location.hash !== hash) {
           window.history.pushState(null, "", hash);
         }
 
-        setActiveSection(hash.slice(1));
+        const nextSection = hash.slice(1);
+
+        scrollStateRef.current.activeSection = nextSection;
+        setActiveSection(nextSection);
 
         if (lenisRef.current && !prefersReducedMotion) {
           lenisRef.current.scrollTo(target, {
@@ -1038,9 +1063,7 @@ export default function App() {
   }, []);
 
   const handleBackToTop = () => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const prefersReducedMotion = window.matchMedia(reducedMotionQuery).matches;
 
     const scrollToTop = (isImmediate = false) => {
       if (lenisRef.current && !prefersReducedMotion) {
