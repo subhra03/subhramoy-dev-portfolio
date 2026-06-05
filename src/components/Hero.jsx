@@ -11,8 +11,10 @@ export default function Hero() {
         <div className="hero-shell">
           <div className="hero-copy">
             <p className="hero-kicker">
-              <span></span>
-              Frontend Engineer
+              <span className="hero-kicker-line"></span>
+              <span className="hero-kicker-text" data-hero-kicker-text>
+                Frontend Engineer
+              </span>
             </p>
 
             <h1 className="hero-title" aria-label="Subhramoy Bhowmik">
@@ -49,6 +51,40 @@ export default function Hero() {
               </div>
             </div>
           </div>
+
+          <aside className="hero-visual" aria-label="Interface design signals">
+            <div className="hero-visual-header" data-hero-visual-item>
+              <span>01 / Experience Layer</span>
+              <strong>Frontend System</strong>
+            </div>
+
+            <div className="hero-code-window" data-hero-visual-item>
+              <div className="hero-code-bar" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <pre>
+                <code>{`const interface = {
+  motion: "calm",
+  layout: "responsive",
+  polish: "production"
+};`}</code>
+              </pre>
+            </div>
+
+            <div className="hero-signal-grid" data-hero-visual-item>
+              <span>Responsive UI</span>
+              <span>GSAP Motion</span>
+              <span>React Build</span>
+              <span>Clean CSS</span>
+            </div>
+
+            <div className="hero-visual-footer" data-hero-visual-item>
+              <span>Current focus</span>
+              <strong>Elegant web interfaces</strong>
+            </div>
+          </aside>
         </div>
       </div>
 

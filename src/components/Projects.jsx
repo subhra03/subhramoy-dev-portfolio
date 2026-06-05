@@ -83,14 +83,14 @@ export default function Projects() {
     const isSmall = stageWidth < 640;
     const isTiny = stageWidth < 420;
     const gap = isTiny
-      ? Math.min(stageWidth * 0.42, 150)
+      ? Math.min(stageWidth * 0.34, 118)
       : isSmall
-        ? Math.min(stageWidth * 0.5, 180)
+        ? Math.min(stageWidth * 0.42, 150)
         : Math.min(stageWidth * 0.23, 310);
     const farGap = isTiny
-      ? Math.min(stageWidth * 0.58, 210)
+      ? Math.min(stageWidth * 0.46, 160)
       : isSmall
-        ? Math.min(stageWidth * 0.68, 245)
+        ? Math.min(stageWidth * 0.58, 210)
         : Math.min(stageWidth * 0.38, 520);
 
     cards.forEach((card, index) => {
@@ -107,9 +107,9 @@ export default function Projects() {
         absOffset === 0
           ? 0
           : isTiny
-            ? 10 + absOffset * 6
+            ? 6 + absOffset * 4
             : isSmall
-              ? 16 + absOffset * 7
+              ? 10 + absOffset * 5
               : 26 + absOffset * 10;
       const scale =
         absOffset === 0
@@ -123,25 +123,25 @@ export default function Projects() {
             : absOffset === 2
               ? isSmall
                 ? isTiny
-                  ? 0.36
-                  : 0.48
+                  ? 0.26
+                  : 0.38
                 : 0.58
               : 0.4;
       const rotation = isCenter
         ? 0
         : direction *
-          (isTiny ? (absOffset === 1 ? -1.5 : -3) : absOffset === 1 ? -3 : -6);
+          (isTiny ? 0 : isSmall ? (absOffset === 1 ? -1.4 : -2.5) : absOffset === 1 ? -3 : -6);
       const opacity =
         absOffset === 0
           ? 1
           : absOffset === 1
             ? isTiny
-              ? 0.48
-              : 0.74
+              ? 0.18
+              : 0.34
             : absOffset === 2
               ? isTiny
-                ? 0.16
-                : 0.34
+                ? 0
+                : 0.08
               : 0;
 
       const animationProps = {

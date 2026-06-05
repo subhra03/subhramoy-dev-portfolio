@@ -165,6 +165,9 @@ export default function App() {
         defaults: { ease: "power3.out", duration: 0.78 },
       });
       const heroCounters = gsap.utils.toArray("[data-count-to]");
+      const heroKickerText = document.querySelector("[data-hero-kicker-text]");
+      let heroKickerTween;
+      let heroKickerRestoreTimer;
 
       gsap.set(".hero-bg-panel", {
         autoAlpha: 0,
@@ -176,6 +179,16 @@ export default function App() {
         y: isSmallViewport ? 18 : 28,
       });
       gsap.set(".hero-metrics div", { opacity: 0, y: isSmallViewport ? 14 : 24 });
+      gsap.set(".hero-visual", {
+        autoAlpha: 0,
+        x: 42,
+        y: 18,
+        scale: 0.96,
+      });
+      gsap.set("[data-hero-visual-item]", {
+        autoAlpha: 0,
+        y: 18,
+      });
       gsap.set(".hero-title .split-line", {
         overflow: "hidden",
       });
@@ -185,12 +198,87 @@ export default function App() {
         filter: "blur(10px)",
       });
 
+      const restoreHeroKickerText = () => {
+        if (!heroKickerText) {
+          return;
+        }
+
+        window.clearTimeout(heroKickerRestoreTimer);
+        heroKickerText.textContent =
+          heroKickerText.dataset.kickerFinal || "Frontend Engineer";
+        heroKickerText.classList.remove("is-decoding");
+      };
+
+      const playHeroKickerScramble = () => {
+        if (!heroKickerText) {
+          return;
+        }
+
+        const finalText = normalizeHeadingText(
+          heroKickerText.dataset.kickerFinal || heroKickerText.textContent || "",
+        );
+        const characters = [...finalText];
+        const state = { progress: 0 };
+
+        if (!finalText) {
+          return;
+        }
+
+        heroKickerTween?.kill();
+        window.clearTimeout(heroKickerRestoreTimer);
+        heroKickerText.dataset.kickerFinal = finalText;
+        heroKickerText.setAttribute("aria-label", finalText);
+        heroKickerText.classList.add("is-decoding");
+
+        const renderKickerFrame = () => {
+          const revealCount = Math.floor(state.progress * characters.length);
+
+          heroKickerText.textContent = characters
+            .map((character, index) => {
+              if (character === " ") {
+                return " ";
+              }
+
+              if (index < revealCount) {
+                return character;
+              }
+
+              return state.progress > 0.78 && Math.random() > 0.45
+                ? character
+                : getScrambleGlyph();
+            })
+            .join("");
+        };
+
+        heroKickerTween = gsap.fromTo(
+          state,
+          { progress: 0 },
+          {
+            progress: 1,
+            duration: isSmallViewport ? 0.58 : 0.72,
+            ease: "power3.out",
+            onUpdate: renderKickerFrame,
+            onComplete: restoreHeroKickerText,
+            onInterrupt: restoreHeroKickerText,
+          },
+        );
+
+        heroKickerRestoreTimer = window.setTimeout(() => {
+          heroKickerTween?.kill();
+          restoreHeroKickerText();
+        }, 1300);
+      };
+
       heroCounters.forEach((counter) => {
         counter.dataset.counterFinal = counter.textContent || "";
         counter.textContent = `0${counter.dataset.countSuffix || ""}`;
       });
 
       motionCleanupFns.push(() => {
+        window.clearTimeout(heroKickerRestoreTimer);
+        heroKickerTween?.kill();
+        restoreHeroKickerText();
+
         heroCounters.forEach((counter) => {
           counter.textContent =
             counter.dataset.counterFinal ||
@@ -207,6 +295,7 @@ export default function App() {
           stagger: 0.12,
         })
         .to(".hero-kicker", { opacity: 1, y: 0 }, 0.1)
+        .call(playHeroKickerScramble, [], 0.16)
         .to(
           ".split-word",
           {
@@ -216,14 +305,37 @@ export default function App() {
             duration: isSmallViewport ? 0.76 : 0.95,
             stagger: isSmallViewport ? 0.025 : 0.038,
           },
-          0.18,
+          0.26,
         )
-        .to(".hero-subtitle", { opacity: 1, y: 0 }, 0.46)
-        .to(".hero-actions", { opacity: 1, y: 0 }, 0.58)
+        .to(".hero-subtitle", { opacity: 1, y: 0 }, 0.52)
+        .to(".hero-actions", { opacity: 1, y: 0 }, 0.64)
+        .to(
+          ".hero-visual",
+          {
+            autoAlpha: 1,
+            x: 0,
+            y: 0,
+            scale: 1,
+            duration: 0.9,
+            ease: "power3.out",
+          },
+          0.46,
+        )
+        .to(
+          "[data-hero-visual-item]",
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.58,
+            stagger: 0.075,
+            ease: "power3.out",
+          },
+          0.66,
+        )
         .to(
           ".hero-metrics div",
           { opacity: 1, y: 0, stagger: 0.08 },
-          0.72,
+          0.78,
         );
 
       heroCounters.forEach((counter, index) => {
@@ -245,9 +357,66 @@ export default function App() {
               counter.textContent = `${targetValue}${suffix}`;
             },
           },
-          0.78 + index * 0.04,
+          0.84 + index * 0.04,
         );
       });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: "#home",
+            start: "top top",
+            end: isSmallViewport ? "bottom 64%" : "bottom 48%",
+            scrub: 0.65,
+          },
+        })
+        .to(
+          ".hero-copy",
+          {
+            y: isSmallViewport ? -26 : -78,
+            autoAlpha: isSmallViewport ? 0.2 : 0.08,
+            scale: isSmallViewport ? 0.985 : 0.96,
+            transformOrigin: "left top",
+            ease: "none",
+          },
+          0,
+        )
+        .to(
+          ".hero-visual",
+          {
+            y: isSmallViewport ? -18 : -56,
+            autoAlpha: isSmallViewport ? 0.16 : 0.04,
+            scale: isSmallViewport ? 0.985 : 0.95,
+            transformOrigin: "center top",
+            ease: "none",
+          },
+          0,
+        )
+        .to(
+          ".hero-title",
+          {
+            yPercent: isSmallViewport ? -6 : -12,
+            ease: "none",
+          },
+          0,
+        )
+        .to(
+          ".hero-bg",
+          {
+            filter: isSmallViewport ? "brightness(0.92)" : "brightness(0.82)",
+            ease: "none",
+          },
+          0,
+        )
+        .to(
+          ".hero-scroll-hint",
+          {
+            autoAlpha: 0,
+            y: -12,
+            ease: "none",
+          },
+          0,
+        );
 
       [
         { selector: ".hero-bg-panel--one", yPercent: isSmallViewport ? -5 : -14 },
@@ -613,6 +782,7 @@ export default function App() {
           ".btn",
           ".filter-chip",
           ".action-chip",
+          ".about-social-link",
           ".slider-nav-button",
           ".project-link",
           ".footer-nav-link",

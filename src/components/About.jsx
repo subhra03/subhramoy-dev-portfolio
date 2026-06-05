@@ -1,5 +1,6 @@
 import resumePdf from "../../asset/cv.pdf";
 import aboutImage from "../../asset/my.jpeg";
+import { socialLinks } from "../data/socialLinks";
 
 const principles = [
   {
@@ -77,6 +78,32 @@ export default function About() {
                 <a href="#contact" className="btn btn-outline-primary">
                   Contact Me
                 </a>
+              </div>
+
+              <div className="about-social-panel" aria-label="Social links">
+                <p className="about-social-label">Find me online</p>
+                <div className="about-social-links">
+                  {socialLinks.map((link) => (
+                    <a
+                      className="about-social-link"
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      key={link.label}
+                    >
+                      <span className="about-social-icon" aria-hidden="true">
+                        {link.iconClass ? (
+                          <i className={link.iconClass}></i>
+                        ) : (
+                          <span className="social-glyph social-glyph--x">
+                            {link.glyph}
+                          </span>
+                        )}
+                      </span>
+                      <span>{link.label}</span>
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

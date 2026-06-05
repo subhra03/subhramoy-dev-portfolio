@@ -4,34 +4,6 @@ import resumePdf from "../../asset/cv.pdf";
 
 const email = "subhramoy03@gmail.com";
 
-const socialLinks = [
-  {
-    label: "Facebook",
-    href: "https://www.facebook.com/share/14nnXLjsQT/",
-    iconClass: "fab fa-facebook-f",
-  },
-  {
-    label: "X",
-    href: "https://x.com/_Subhra_?t=nqgr3rA9jchbLufsed7obA&s=08",
-    glyph: "X",
-  },
-  {
-    label: "YouTube",
-    href: "https://youtube.com/@subhramoy-03?si=djr8I1rVZaC6ysdJ",
-    iconClass: "fab fa-youtube",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/subhramoy-bhowmik-8b6944242",
-    iconClass: "fab fa-linkedin-in",
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/subhra03",
-    iconClass: "fab fa-github",
-  },
-];
-
 const submitButtonLabels = {
   idle: "Send Message",
   sending: "Sending...",
@@ -431,29 +403,6 @@ export default function Contact() {
               <p className="contact-response-time">
                 Usually replies within 24 to 48 hours.
               </p>
-
-              <div className="social-cluster" aria-label="Social links">
-                <div className="d-flex flex-wrap gap-2">
-                  {socialLinks.map((link) => (
-                    <a
-                      href={link.href}
-                      className="social-link"
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={link.label}
-                      key={link.label}
-                    >
-                      {link.iconClass ? (
-                        <i className={link.iconClass} aria-hidden="true"></i>
-                      ) : (
-                        <span className="social-glyph social-glyph--x" aria-hidden="true">
-                          {link.glyph}
-                        </span>
-                      )}
-                    </a>
-                  ))}
-                </div>
-              </div>
             </div>
           </aside>
 

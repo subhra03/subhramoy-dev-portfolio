@@ -1,32 +1,11 @@
+import { socialLinks } from "../data/socialLinks";
+
 const footerLinks = [
   { href: "#home", label: "Home" },
   { href: "#techstack", label: "Stack" },
   { href: "#projects", label: "Projects" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
-];
-
-const socialLinks = [
-  {
-    href: "https://github.com/subhra03",
-    label: "GitHub",
-    iconClass: "fab fa-github",
-  },
-  {
-    href: "https://www.linkedin.com/in/subhramoy-bhowmik-8b6944242",
-    label: "LinkedIn",
-    iconClass: "fab fa-linkedin-in",
-  },
-  {
-    href: "https://x.com/_Subhra_?t=nqgr3rA9jchbLufsed7obA&s=08",
-    label: "X",
-    glyph: "X",
-  },
-  {
-    href: "https://youtube.com/@subhramoy-03?si=djr8I1rVZaC6ysdJ",
-    label: "YouTube",
-    iconClass: "fab fa-youtube",
-  },
 ];
 
 export default function Footer({ year }) {
@@ -56,26 +35,31 @@ export default function Footer({ year }) {
             ))}
           </nav>
 
-          <div className="footer-social" aria-label="Social links">
-            {socialLinks.map((link) => (
-              <a
-                className="footer-social-link"
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={link.label}
-                data-footer-social
-                key={link.label}
-              >
-                {link.iconClass ? (
-                  <i className={link.iconClass} aria-hidden="true"></i>
-                ) : (
-                  <span className="social-glyph social-glyph--x" aria-hidden="true">
-                    {link.glyph}
+          <div className="footer-connect" data-footer-item>
+            <p className="footer-connect-label">Connect</p>
+            <div className="footer-social" aria-label="Social links">
+              {socialLinks.map((link) => (
+                <a
+                  className="footer-social-link"
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-footer-social
+                  key={link.label}
+                >
+                  <span className="footer-social-icon" aria-hidden="true">
+                    {link.iconClass ? (
+                      <i className={link.iconClass}></i>
+                    ) : (
+                      <span className="social-glyph social-glyph--x">
+                        {link.glyph}
+                      </span>
+                    )}
                   </span>
-                )}
-              </a>
-            ))}
+                  <span className="footer-social-label">{link.label}</span>
+                </a>
+              ))}
+            </div>
           </div>
 
           <p className="footer-meta" data-footer-item>
