@@ -61,4 +61,25 @@ export const techStack = [
     copy: "The daily editor for fast, careful implementation.",
     iconClass: "fas fa-code tech-icon text-info",
   },
+  {
+    name: "Vite",
+    copy: "Fast React development with modern build tooling.",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg",
+  },
+  {
+    name: "GSAP",
+    copy: "Smooth timeline-based motion and scroll interactions.",
+    iconClass: "fas fa-wand-magic-sparkles tech-icon text-success",
+  },
+  {
+    name: "Lenis",
+    copy: "Refined smooth scrolling for polished page movement.",
+    iconClass: "fas fa-scroll tech-icon text-info",
+  },
+  {
+    name: "SplitType",
+    copy: "Controlled text splitting for reveal and scramble effects.",
+    iconClass: "fas fa-font tech-icon text-purple",
+  },
 ];
