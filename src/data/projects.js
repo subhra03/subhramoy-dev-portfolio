@@ -6,6 +6,7 @@ import projectFiveImage from "../../asset/5.png";
 import projectSixImage from "../../asset/6.png";
 import projectSevenImage from "../../asset/7.png";
 import projectEightImage from "../../asset/8.png";
+import projectNineImage from "../../asset/9.png";
 
 export const projectFilters = [
   { label: "All", value: "all" },
@@ -18,11 +19,10 @@ export const projects = [
   {
     id: "personal-portfolio-ui",
     index: "01",
-    categoryLabel: "Frontend concept",
+    categoryLabel: "Web UI concept",
     categories: ["ui", "frontend"],
     title: "Personal Portfolio UI",
-    copy:
-      "Modern responsive portfolio design showcasing skills, personality, and project highlights.",
+    copy: "Modern responsive portfolio design showcasing skills, personality, and project highlights.",
     tags: ["HTML", "CSS", "JavaScript"],
     image: projectOneImage,
     imageAlt: "Personal Portfolio project preview",
@@ -34,8 +34,7 @@ export const projects = [
     categoryLabel: "Ecommerce UI",
     categories: ["ui", "frontend"],
     title: "Bike Website UI",
-    copy:
-      "A bike ecommerce concept with immersive composition, product focus, and motion-led presentation.",
+    copy: "A bike ecommerce concept with immersive composition, product focus, and motion-led presentation.",
     tags: ["HTML", "CSS", "JavaScript"],
     image: projectTwoImage,
     imageAlt: "Bike Website project preview",
@@ -47,8 +46,7 @@ export const projects = [
     categoryLabel: "Portfolio build",
     categories: ["ui", "frontend"],
     title: "Bootstrap Portfolio",
-    copy:
-      "A clean portfolio layout built with Bootstrap and a structured visual hierarchy.",
+    copy: "A clean portfolio layout built with Bootstrap and a structured visual hierarchy.",
     tags: ["Bootstrap", "HTML", "CSS"],
     image: projectThreeImage,
     imageAlt: "Bootstrap Portfolio project preview",
@@ -60,8 +58,7 @@ export const projects = [
     categoryLabel: "Utility app",
     categories: ["react", "utility"],
     title: "Expense Tracker",
-    copy:
-      "A budgeting interface focused on clarity, quick tracking, and usable information flow.",
+    copy: "A budgeting interface focused on clarity, quick tracking, and usable information flow.",
     tags: ["React", "JavaScript"],
     image: projectFourImage,
     imageAlt: "Expense Tracker project preview",
@@ -73,8 +70,7 @@ export const projects = [
     categoryLabel: "Form workflow",
     categories: ["utility", "frontend"],
     title: "Student Reservation System",
-    copy:
-      "A reservation flow centered around forms, structure, and straightforward interaction.",
+    copy: "A reservation flow centered around forms, structure, and straightforward interaction.",
     tags: ["HTML", "JavaScript"],
     image: projectFiveImage,
     imageAlt: "Student Reservation project preview",
@@ -86,8 +82,7 @@ export const projects = [
     categoryLabel: "Calculator UI",
     categories: ["react", "utility"],
     title: "Loan Calculator",
-    copy:
-      "A responsive calculator interface built around understandable inputs and clear output.",
+    copy: "A responsive calculator interface built around understandable inputs and clear output.",
     tags: ["React", "API"],
     image: projectSixImage,
     imageAlt: "Loan Calculator project preview",
@@ -99,8 +94,7 @@ export const projects = [
     categoryLabel: "Product clone",
     categories: ["react", "ui"],
     title: "Twitter Clone",
-    copy:
-      "A social product interface recreated with familiar interaction patterns and React components.",
+    copy: "A social product interface recreated with familiar interaction patterns and React components.",
     tags: ["React", "JavaScript"],
     image: projectSevenImage,
     imageAlt: "Twitter Clone project preview",
@@ -112,11 +106,24 @@ export const projects = [
     categoryLabel: "Media interface",
     categories: ["ui", "frontend"],
     title: "Music Player",
-    copy:
-      "A music player concept focused on custom controls, atmosphere, and interaction quality.",
+    copy: "A music player concept focused on custom controls, atmosphere, and interaction quality.",
     tags: ["HTML", "JavaScript"],
     image: projectEightImage,
     imageAlt: "Music Player project preview",
     link: "https://sb-music-player.vercel.app/",
+  },
+  {
+    id: "sb-clothing-store",
+    index: "09",
+    categoryLabel: "Ecommerce store",
+    categories: ["react", "ui"],
+    title: "SB Clothing Store",
+    copy: "A printed clothing ecommerce store with product browsing, shopping-focused layout, and clear purchase flow.",
+    tags: ["React", "Ecommerce", "Vercel"],
+    image: projectNineImage,
+    imageAlt: "SB Clothing Store project preview",
+    link: "https://e-commerce-store-bay-seven.vercel.app/",
+    githubLink:
+      "https://github.com/subhra03/E-commerce-Clothing-Printed-SB-Store-",
   },
 ];

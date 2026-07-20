@@ -3,6 +3,8 @@ import gsap from "gsap";
 import resumePdf from "../../asset/cv.pdf";
 
 const email = "subhramoy03@gmail.com";
+const minimumMessageLength = 10;
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const submitButtonLabels = {
   idle: "Send Message",
@@ -24,6 +26,25 @@ const getSubmitButtonLabel = (state) =>
 const getSubmitButtonIcon = (state) =>
   submitButtonIcons[state] || submitButtonIcons.idle;
 
+const getTrimmedFormValue = (formData, name) =>
+  String(formData.get(name) || "").trim();
+
+const validateContactForm = (formData) => {
+  const name = getTrimmedFormValue(formData, "name");
+  const senderEmail = getTrimmedFormValue(formData, "email");
+  const message = getTrimmedFormValue(formData, "message");
+
+  if (!name || !emailPattern.test(senderEmail)) {
+    return "Please enter your name and a valid email address.";
+  }
+
+  if (message.length < minimumMessageLength) {
+    return `Please add a message with at least ${minimumMessageLength} characters.`;
+  }
+
+  return "";
+};
+
 async function writeClipboardText(text) {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(text);
@@ -44,6 +65,7 @@ async function writeClipboardText(text) {
 export default function Contact() {
   const [copyState, setCopyState] = useState("idle");
   const [formState, setFormState] = useState("idle");
+  const [formErrorMessage, setFormErrorMessage] = useState("");
   const [submitLabel, setSubmitLabel] = useState(getSubmitButtonLabel("idle"));
   const [submitIconClass, setSubmitIconClass] = useState(
     getSubmitButtonIcon("idle"),
@@ -291,6 +313,7 @@ export default function Contact() {
 
   const resetFormFeedback = () => {
     if (formState === "success" || formState === "error") {
+      setFormErrorMessage("");
       setFormState("idle");
       gsap.to(formRef.current?.querySelectorAll(".form-field, .form-submit"), {
         opacity: 1,
@@ -307,7 +330,23 @@ export default function Contact() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const honeypotValue = getTrimmedFormValue(formData, "_gotcha");
+    const validationMessage = validateContactForm(formData);
 
+    if (honeypotValue) {
+      form.reset();
+      setFormErrorMessage("");
+      setFormState("success");
+      return;
+    }
+
+    if (validationMessage) {
+      setFormErrorMessage(validationMessage);
+      setFormState("error");
+      return;
+    }
+
+    setFormErrorMessage("");
     setFormState("sending");
 
     try {
@@ -320,12 +359,16 @@ export default function Contact() {
       });
 
       if (!response.ok) {
-        throw new Error(`Form submission failed with status ${response.status}`);
+        throw new Error(
+          `Form submission failed with status ${response.status}`,
+        );
       }
 
       form.reset();
+      setFormErrorMessage("");
       setFormState("success");
     } catch {
+      setFormErrorMessage("Please try again in a moment or email me directly.");
       setFormState("error");
     }
   };
@@ -340,7 +383,9 @@ export default function Contact() {
       : {
           icon: "!",
           title: "Unable to send",
-          message: "Please try again in a moment or email me directly.",
+          message:
+            formErrorMessage ||
+            "Please try again in a moment or email me directly.",
         };
 
   return (
@@ -349,7 +394,8 @@ export default function Contact() {
         <div className="section-head" data-animate="fade-up">
           <p className="section-kicker">Contact</p>
           <h2 className="section-title" data-scramble>
-            Open for frontend collaborations and polished product work
+            Open for software development collaborations and polished product
+            work
           </h2>
           <p className="section-subtitle">
             Share the project, role, or redesign problem. I will reply with the
@@ -361,13 +407,20 @@ export default function Contact() {
           <aside className="contact-card" data-animate="fade-up">
             <h3 className="contact-card-title">Good fit for</h3>
             <p className="contact-intro">
-              Front-end projects that need both visual polish and careful
+              Web projects that need both visual polish and careful
               implementation.
             </p>
             <ul className="contact-points">
-              <li>Frontend builds with stronger visual language and UX clarity</li>
-              <li>Responsive UI implementation with clean, maintainable code</li>
-              <li>Design-aware engineering for portfolio, utility, and product sites</li>
+              <li>
+                Software builds with stronger visual language and UX clarity
+              </li>
+              <li>
+                Responsive UI implementation with clean, maintainable code
+              </li>
+              <li>
+                Design-aware development for portfolio, utility, and product
+                sites
+              </li>
             </ul>
 
             <div className="contact-meta">
@@ -406,18 +459,26 @@ export default function Contact() {
             </div>
           </aside>
 
-          <div
-            className="contact-form-shell"
-            data-animate="fade-up"
-          >
+          <div className="contact-form-shell" data-animate="fade-up">
             <form
               id="contact-form"
               className={formClassName}
               action="https://formspree.io/f/movdqbyd"
               method="POST"
+              aria-busy={formState === "sending"}
               onSubmit={handleSubmit}
               ref={formRef}
             >
+              <label className="form-honeypot" aria-hidden="true">
+                <span>Website</span>
+                <input
+                  type="text"
+                  name="_gotcha"
+                  tabIndex="-1"
+                  autoComplete="off"
+                />
+              </label>
+
               <div className="form-grid">
                 <label className="form-field">
                   <span>Name</span>
@@ -426,6 +487,7 @@ export default function Contact() {
                     name="name"
                     placeholder="Your name"
                     required
+                    disabled={formState === "sending"}
                     onInput={resetFormFeedback}
                   />
                 </label>
@@ -437,6 +499,7 @@ export default function Contact() {
                     name="email"
                     placeholder="you@example.com"
                     required
+                    disabled={formState === "sending"}
                     onInput={resetFormFeedback}
                   />
                 </label>
@@ -449,6 +512,8 @@ export default function Contact() {
                   rows="6"
                   placeholder="Tell me about the project"
                   required
+                  minLength={minimumMessageLength}
+                  disabled={formState === "sending"}
                   onInput={resetFormFeedback}
                 ></textarea>
               </label>

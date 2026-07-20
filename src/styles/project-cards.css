@@ -1,0 +1,78 @@
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.filter-chip,
+.action-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.55rem;
+  padding: 0.64rem 0.86rem;
+  border: 1px solid rgba(17, 20, 20, 0.14);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 800;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.filter-chip:hover,
+.filter-chip:focus-visible,
+.action-chip:hover,
+.action-chip:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(15, 111, 92, 0.3);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.project-tags span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.62rem;
+  border-radius: var(--radius-sm);
+  background: rgba(143, 214, 199, 0.13);
+  color: #a9e8dc;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.project-link,
+.contact-mail {
+  color: var(--emerald);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.project-link:hover,
+.contact-mail:hover,
+.project-link:focus-visible,
+.contact-mail:focus-visible {
+  color: var(--emerald-dark);
+}
+
+.filter-chip:focus-visible,
+.action-chip:focus-visible,
+.about-social-link:focus-visible,
+.project-radar-item:focus-visible,
+.footer-social-link:focus-visible,
+.back-to-top:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid rgba(15, 111, 92, 0.46);
+  outline-offset: 3px;
+}

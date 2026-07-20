@@ -1,25 +1,16 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import gsap from "gsap";
-import ProjectCard from "./ProjectCard";
+import { useCallback, useMemo, useState } from "react";
 import { projectFilters, projects } from "../data/projects";
+import { githubProfileLink } from "../utils/links";
 
-const getWrappedOffset = (index, activeIndex, total) => {
-  const half = Math.floor(total / 2);
-  return ((index - activeIndex + half + total) % total) - half;
-};
+const codeSignals = [
+  { value: "React", label: "Component UI" },
+  { value: "Vite", label: "Fast builds" },
+  { value: "GSAP", label: "Motion layer" },
+];
 
 export default function Projects() {
-  const sliderRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState("all");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [sliderRevision, setSliderRevision] = useState(0);
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === "all") {
@@ -32,187 +23,16 @@ export default function Projects() {
   }, [activeFilter]);
 
   const activeProject = filteredProjects[activeIndex] || filteredProjects[0];
+  const textureProjects = filteredProjects.slice(0, 6);
 
-  const goToProject = useCallback(
-    (nextIndex) => {
-      const total = filteredProjects.length;
-
-      if (total === 0) {
-        return;
-      }
-
-      setActiveIndex(((nextIndex % total) + total) % total);
-    },
-    [filteredProjects.length],
-  );
-
-  const goPrevious = useCallback(() => {
-    goToProject(activeIndex - 1);
-  }, [activeIndex, goToProject]);
-
-  const goNext = useCallback(() => {
-    goToProject(activeIndex + 1);
-  }, [activeIndex, goToProject]);
-
-  const handleSelectProject = useCallback(
-    (projectIndex) => {
-      goToProject(projectIndex);
-    },
-    [goToProject],
-  );
-
-  useEffect(() => {
+  const handleSelectFilter = useCallback((nextFilter) => {
+    setActiveFilter(nextFilter);
     setActiveIndex(0);
-  }, [activeFilter]);
 
-  useEffect(() => {
-    const frameId = window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
       window.dispatchEvent(new Event("portfolio:layout-change"));
     });
-
-    return () => window.cancelAnimationFrame(frameId);
-  }, [filteredProjects.length]);
-
-  useLayoutEffect(() => {
-    const slider = sliderRef.current;
-
-    if (!slider || filteredProjects.length === 0) {
-      return undefined;
-    }
-
-    const cards = gsap.utils.toArray(
-      slider.querySelectorAll(".project-slider-card"),
-    );
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const stageWidth = slider.getBoundingClientRect().width;
-    const isSmall = stageWidth < 640;
-    const isTiny = stageWidth < 430;
-    const gap = isTiny
-      ? Math.min(stageWidth * 0.28, 92)
-      : isSmall
-        ? Math.min(stageWidth * 0.42, 150)
-        : Math.min(stageWidth * 0.23, 310);
-    const farGap = isTiny
-      ? Math.min(stageWidth * 0.4, 132)
-      : isSmall
-        ? Math.min(stageWidth * 0.58, 210)
-        : Math.min(stageWidth * 0.38, 520);
-
-    cards.forEach((card, index) => {
-      const offset = getWrappedOffset(index, activeIndex, cards.length);
-      const absOffset = Math.abs(offset);
-      const direction = Math.sign(offset);
-      const isCenter = offset === 0;
-      const x =
-        absOffset === 0
-          ? 0
-          : direction *
-            (absOffset === 1 ? gap : farGap + (absOffset - 2) * gap * 0.42);
-      const y =
-        absOffset === 0
-          ? 0
-          : isTiny
-            ? 6 + absOffset * 4
-            : isSmall
-              ? 10 + absOffset * 5
-              : 26 + absOffset * 10;
-      const scale =
-        absOffset === 0
-          ? 1
-          : absOffset === 1
-            ? isSmall
-              ? isTiny
-                ? 0.48
-                : 0.7
-              : 0.78
-            : absOffset === 2
-              ? isSmall
-                ? isTiny
-                  ? 0.2
-                  : 0.38
-                : 0.58
-              : 0.4;
-      const rotation = isCenter
-        ? 0
-        : direction *
-          (isTiny ? 0 : isSmall ? (absOffset === 1 ? -1.4 : -2.5) : absOffset === 1 ? -3 : -6);
-      const opacity =
-        absOffset === 0
-          ? 1
-          : absOffset === 1
-            ? isTiny
-              ? 0.08
-              : 0.34
-            : absOffset === 2
-              ? isTiny
-                ? 0
-                : 0.08
-              : 0;
-
-      const animationProps = {
-        x,
-        y,
-        scale,
-        rotation,
-        opacity,
-        zIndex: 20 - absOffset,
-        overwrite: true,
-      };
-
-      if (prefersReducedMotion) {
-        gsap.set(card, animationProps);
-        return;
-      }
-
-      gsap.to(card, {
-        ...animationProps,
-        duration: 0.72,
-        ease: "power3.inOut",
-      });
-    });
-
-    return () => {
-      gsap.killTweensOf(cards);
-    };
-  }, [activeIndex, filteredProjects, sliderRevision]);
-
-  useEffect(() => {
-    const slider = sliderRef.current;
-
-    if (!slider) {
-      return undefined;
-    }
-
-    let resizeFrame = 0;
-
-    const handleResize = () => {
-      window.cancelAnimationFrame(resizeFrame);
-      resizeFrame = window.requestAnimationFrame(() => {
-        setSliderRevision((revision) => revision + 1);
-      });
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.cancelAnimationFrame(resizeFrame);
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
-
-  const handleSliderKeyDown = (event) => {
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      goPrevious();
-    }
-
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      goNext();
-    }
-  };
 
   return (
     <section id="projects" className="section-block projects-section">
@@ -221,11 +41,11 @@ export default function Projects() {
           <div className="projects-head" data-animate="fade-up">
             <p className="section-kicker">Selected work</p>
             <h2 className="section-title" data-scramble>
-              Project interfaces shaped around clarity and visual polish
+              A project workbench for the interfaces I build
             </h2>
             <p className="section-subtitle">
-              A curated set of front-end builds, utility interfaces, and
-              component-led layouts with an emphasis on responsive detail.
+              Browse focused web builds with clearer previews, direct live
+              links, and a compact view of the code habits behind the work.
             </p>
           </div>
 
@@ -248,7 +68,7 @@ export default function Projects() {
                     type="button"
                     data-filter={filter.value}
                     aria-pressed={isActive}
-                    onClick={() => setActiveFilter(filter.value)}
+                    onClick={() => handleSelectFilter(filter.value)}
                     key={filter.value}
                   >
                     {filter.label}
@@ -259,52 +79,125 @@ export default function Projects() {
           </div>
         </div>
 
-        <div
-          className="project-slider-shell"
-          data-animate="fade-up"
-          aria-label="Infinite project card slider"
-        >
-          <div className="project-slider-topline">
-            <span className="project-meta">Infinite card slider</span>
-            <span className="project-slider-counter">
-              {String(activeIndex + 1).padStart(2, "0")} /{" "}
-              {String(filteredProjects.length).padStart(2, "0")}
-            </span>
-          </div>
-
+        {activeProject ? (
           <div
-            className="project-slider-stage"
-            aria-live="polite"
-            tabIndex="0"
-            ref={sliderRef}
-            onKeyDown={handleSliderKeyDown}
+            className="project-atlas"
+            data-animate="fade-up"
+            aria-label="Interactive project atlas"
           >
-            {filteredProjects.map((project, index) => (
-              <ProjectCard
-                project={project}
-                isActive={index === activeIndex}
-                index={index}
-                onSelectProject={handleSelectProject}
-                key={project.id}
-              />
-            ))}
-          </div>
-
-          <div className="project-slider-controls" aria-label="Slider controls">
-            <button className="slider-nav-button" type="button" onClick={goPrevious}>
-              <i className="fas fa-arrow-left" aria-hidden="true"></i>
-              Prev
-            </button>
-            <div className="project-slider-status">
-              <strong>{activeProject?.title}</strong>
-              <span>{activeProject?.categoryLabel}</span>
+            <div className="project-atlas-texture" aria-hidden="true">
+              {textureProjects.map((project, index) => (
+                <img
+                  src={project.image}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  style={{ "--preview-index": index }}
+                  key={project.id}
+                />
+              ))}
             </div>
-            <button className="slider-nav-button" type="button" onClick={goNext}>
-              Next
-              <i className="fas fa-arrow-right" aria-hidden="true"></i>
-            </button>
+
+            <div className="project-atlas-stage">
+              <span className="project-atlas-number" aria-hidden="true">
+                {activeProject.index}
+              </span>
+
+              <figure className="project-device">
+                <figcaption className="project-device-bar">
+                  <span>Live preview</span>
+                  <span>{activeProject.categoryLabel}</span>
+                </figcaption>
+                <img
+                  src={activeProject.image}
+                  alt={activeProject.imageAlt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            </div>
+
+            <aside className="project-casefile">
+              <span className="project-meta">
+                Case file {activeProject.index}
+              </span>
+              <h3>{activeProject.title}</h3>
+              <p>{activeProject.copy}</p>
+
+              <div
+                className="project-tags"
+                aria-label={`${activeProject.title} tools`}
+              >
+                {activeProject.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+
+              <div className="project-signal-strip" aria-label="Build signals">
+                {codeSignals.map((signal) => (
+                  <span key={signal.value}>
+                    <strong>{signal.value}</strong>
+                    {signal.label}
+                  </span>
+                ))}
+              </div>
+
+              <div className="project-actions project-case-actions">
+                <a
+                  href={activeProject.link}
+                  className="project-link project-link--primary"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Live
+                  <i
+                    className="fas fa-arrow-up-right-from-square"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+                <a
+                  href={activeProject.githubLink || githubProfileLink}
+                  className="project-link project-link--secondary"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  GitHub
+                  <i className="fab fa-github" aria-hidden="true"></i>
+                </a>
+              </div>
+            </aside>
+
+            <div className="project-radar" aria-label="Choose project">
+              {filteredProjects.map((project, index) => {
+                const isActive = index === activeIndex;
+
+                return (
+                  <button
+                    className={`project-radar-item${isActive ? " is-active" : ""}`}
+                    type="button"
+                    aria-label={`Show ${project.title}`}
+                    aria-pressed={isActive}
+                    onClick={() => setActiveIndex(index)}
+                    key={project.id}
+                  >
+                    <span className="project-radar-thumb" aria-hidden="true">
+                      <img
+                        src={project.image}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </span>
+                    <span className="project-radar-copy">
+                      <strong>{project.index}</strong>
+                      {project.title}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </section>
   );

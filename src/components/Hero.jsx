@@ -1,3 +1,5 @@
+import profileImage from "../../asset/my photo.webp";
+
 export default function Hero() {
   return (
     <section className="hero" id="home">
@@ -13,7 +15,7 @@ export default function Hero() {
             <p className="hero-kicker">
               <span className="hero-kicker-line"></span>
               <span className="hero-kicker-text" data-hero-kicker-text>
-                Frontend Engineer
+                Software Developer
               </span>
             </p>
 
@@ -22,8 +24,8 @@ export default function Hero() {
             </h1>
 
             <p className="hero-subtitle">
-              I craft polished, responsive web interfaces with elegant visuals,
-              clean structure, and production-minded front-end implementation.
+              I build responsive web experiences with clean UI, practical code,
+              and polished interaction details.
             </p>
 
             <div className="hero-actions">
@@ -36,53 +38,70 @@ export default function Hero() {
               </a>
             </div>
 
-            <div className="hero-metrics" aria-label="Portfolio highlights">
-              <div>
-                <strong data-count-to="8">8</strong>
-                <span>Selected builds</span>
-              </div>
-              <div>
-                <strong data-count-to="5" data-count-suffix="+">5+</strong>
-                <span>Core tools</span>
-              </div>
-              <div>
-                <strong data-count-to="48" data-count-suffix="h">48h</strong>
-                <span>Reply window</span>
-              </div>
+            <div className="hero-quality-strip" aria-label="Build quality">
+              <span>Responsive layouts</span>
+              <span>Reusable components</span>
+              <span>Accessible markup</span>
+              <span>Motion with restraint</span>
             </div>
           </div>
 
-          <aside className="hero-visual" aria-label="Interface design signals">
-            <div className="hero-visual-header" data-hero-visual-item>
-              <span>01 / Experience Layer</span>
-              <strong>Frontend System</strong>
-            </div>
+          <aside
+            className="hero-visual"
+            aria-label="Subhramoy Bhowmik and build focus"
+          >
+            <figure className="hero-portrait-card" data-hero-visual-item>
+              <img
+                src={profileImage}
+                alt="Subhramoy Bhowmik"
+                width="900"
+                height="900"
+                decoding="async"
+              />
+              <figcaption>
+                <span className="hero-status">
+                  <span aria-hidden="true"></span>
+                  Available for work
+                </span>
+                <strong>Software developer focused on refined web UI.</strong>
+              </figcaption>
+            </figure>
 
-            <div className="hero-code-window" data-hero-visual-item>
-              <div className="hero-code-bar" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div className="hero-side-panel" data-hero-visual-item>
+              <div className="hero-build-orbit" aria-label="Build focus">
+                <span className="hero-orbit-ring hero-orbit-ring--outer"></span>
+                <span className="hero-orbit-ring hero-orbit-ring--inner"></span>
+
+                <div className="hero-orbit-core">
+                  <strong>09</strong>
+                  <span>Live builds</span>
+                </div>
+
+                <span className="hero-orbit-node hero-orbit-node--react">
+                  <i className="fab fa-react" aria-hidden="true"></i>
+                  React
+                </span>
+                <span className="hero-orbit-node hero-orbit-node--vite">
+                  <i className="fas fa-bolt" aria-hidden="true"></i>
+                  Vite
+                </span>
+                <span className="hero-orbit-node hero-orbit-node--motion">
+                  <i
+                    className="fas fa-wand-magic-sparkles"
+                    aria-hidden="true"
+                  ></i>
+                  GSAP
+                </span>
+                <span className="hero-orbit-node hero-orbit-node--ui">
+                  <i className="fas fa-layer-group" aria-hidden="true"></i>
+                  UI
+                </span>
               </div>
-              <pre>
-                <code>{`const interface = {
-  motion: "calm",
-  layout: "responsive",
-  polish: "production"
-};`}</code>
-              </pre>
-            </div>
 
-            <div className="hero-signal-grid" data-hero-visual-item>
-              <span>Responsive UI</span>
-              <span>GSAP Motion</span>
-              <span>React Build</span>
-              <span>Clean CSS</span>
-            </div>
-
-            <div className="hero-visual-footer" data-hero-visual-item>
-              <span>Current focus</span>
-              <strong>Elegant web interfaces</strong>
+              <div className="hero-focus-note">
+                <span>Current focus</span>
+                <strong>Interfaces that feel clear, fast, and crafted.</strong>
+              </div>
             </div>
           </aside>
         </div>

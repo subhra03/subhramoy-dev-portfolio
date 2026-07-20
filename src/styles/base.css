@@ -1,0 +1,223 @@
+:root {
+  --font-sans: "Manrope", sans-serif;
+  --font-display: "Sora", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --bg: #f6f8f7;
+  --bg-soft: #eef4f1;
+  --bg-tint: #f9fbfa;
+  --surface: #ffffff;
+  --surface-strong: rgba(255, 255, 255, 0.94);
+  --ink: #111414;
+  --ink-soft: #28302e;
+  --muted: #66716d;
+  --muted-light: rgba(255, 255, 255, 0.72);
+  --line: rgba(17, 20, 20, 0.12);
+  --line-strong: rgba(17, 20, 20, 0.18);
+  --line-light: rgba(255, 255, 255, 0.16);
+  --emerald: #0f6f5c;
+  --emerald-dark: #08483c;
+  --emerald-soft: rgba(15, 111, 92, 0.11);
+  --page-bg-start: #f6f8f7;
+  --page-bg-mid: #ffffff;
+  --page-bg-end: #eef4f1;
+  --backdrop-grid-line: rgba(17, 20, 20, 0.035);
+  --backdrop-wash: rgba(15, 111, 92, 0.04);
+  --shadow: 0 28px 80px rgba(17, 20, 20, 0.14);
+  --shadow-soft: 0 14px 36px rgba(17, 20, 20, 0.08);
+  --radius-xl: 8px;
+  --radius-lg: 8px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
+  --bezier: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 98px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--ink-soft);
+  background: linear-gradient(
+    180deg,
+    var(--page-bg-start) 0%,
+    var(--page-bg-mid) 42%,
+    var(--page-bg-end) 100%
+  );
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.3s ease;
+}
+
+body.nav-open,
+body.has-lightbox-open {
+  overflow: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+section[id] {
+  scroll-margin-top: 98px;
+}
+
+.site-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.site-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    var(--backdrop-wash) 48%,
+    transparent 100%
+  );
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.backdrop-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--backdrop-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--backdrop-grid-line) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: linear-gradient(180deg, transparent, #000 18%, transparent 86%);
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.split-word {
+  will-change: opacity, transform;
+}
+
+.skip-link {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1200;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--ink);
+  color: #ffffff;
+  font-weight: 800;
+  transform: translateY(-150%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 1200;
+  height: 3px;
+  background: rgba(17, 20, 20, 0.08);
+  pointer-events: none;
+}
+
+.scroll-progress-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    var(--emerald),
+    #8fd6c7,
+    var(--emerald-dark)
+  );
+}
+
+.curve-swipe {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.curve-swipe-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 30px 70px rgba(8, 11, 11, 0.34));
+}
+
+.curve-swipe-accent {
+  position: absolute;
+  top: 50%;
+  left: clamp(1rem, 8vw, 8rem);
+  right: clamp(1rem, 8vw, 8rem);
+  z-index: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(143, 214, 199, 0.88),
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  box-shadow: 0 0 24px rgba(143, 214, 199, 0.38);
+  transform: scaleX(0);
+}

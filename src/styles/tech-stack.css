@@ -1,0 +1,184 @@
+.stack-layout {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.28fr) minmax(0, 0.72fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.stack-summary {
+  position: sticky;
+  top: 7rem;
+  padding: 1.15rem 0 1.15rem 1.2rem;
+  border-left: 4px solid var(--emerald);
+}
+
+.stack-summary p {
+  margin: 0.7rem 0 0;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.stack-map {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.stack-lane {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.32fr) minmax(0, 0.68fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;
+  min-width: 0;
+  padding: clamp(1rem, 2.4vw, 1.3rem);
+  border: 1px solid rgba(17, 20, 20, 0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.72) inset;
+  overflow: hidden;
+}
+
+.stack-lane::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--emerald);
+  opacity: 0.86;
+}
+
+.stack-lane-head {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.stack-lane-index {
+  display: inline-grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  flex: 0 0 2.35rem;
+  place-items: center;
+  border: 1px solid rgba(15, 111, 92, 0.16);
+  border-radius: var(--radius-md);
+  background: var(--emerald-soft);
+  color: var(--emerald-dark);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.stack-lane h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.6vw, 1.24rem);
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.stack-lane p {
+  margin: 0.42rem 0 0;
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.stack-tools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.stack-chip {
+  display: flex;
+  min-width: 0;
+  min-height: 5.15rem;
+  align-items: center;
+  gap: 0.72rem;
+  padding: 0.78rem;
+  border: 1px solid rgba(17, 20, 20, 0.09);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.stack-chip:hover {
+  transform: translateY(-3px);
+  border-color: rgba(15, 111, 92, 0.2);
+  box-shadow: 0 16px 32px rgba(17, 20, 20, 0.08);
+}
+
+.stack-chip-icon {
+  width: 2.55rem;
+  height: 2.55rem;
+  display: inline-grid;
+  flex: 0 0 2.55rem;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: rgba(15, 111, 92, 0.08);
+  color: var(--emerald);
+  font-size: 1.38rem;
+}
+
+.stack-chip-icon img {
+  width: 1.8rem;
+  height: 1.8rem;
+  object-fit: contain;
+}
+
+.stack-chip strong,
+.stack-chip small {
+  display: block;
+  min-width: 0;
+}
+
+.stack-chip strong {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.stack-chip small {
+  margin-top: 0.2rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.42;
+}
+
+.tech-name,
+.project-title,
+.contact-card-title {
+  margin: 1rem 0 0.45rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1.24;
+  font-weight: 800;
+}
+
+.tech-copy,
+.project-copy,
+.about-panel p,
+.principle-card p,
+.contact-intro,
+.contact-points li,
+.contact-response-time {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.text-purple {
+  color: #7952b3;
+}
+
+.text-pink {
+  color: #cf649a;
+}

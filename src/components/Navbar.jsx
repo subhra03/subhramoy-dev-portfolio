@@ -165,9 +165,21 @@ export default function Navbar({
 
       if (toggleLines.length === 3) {
         timeline
-          .to(toggleLines[0], { rotate: 45, y: 6, duration: 0.28, ease: "power3.out" }, 0)
-          .to(toggleLines[1], { opacity: 0, scaleX: 0.15, duration: 0.2, ease: "power2.out" }, 0)
-          .to(toggleLines[2], { rotate: -45, y: -6, duration: 0.28, ease: "power3.out" }, 0);
+          .to(
+            toggleLines[0],
+            { rotate: 45, y: 6, duration: 0.28, ease: "power3.out" },
+            0,
+          )
+          .to(
+            toggleLines[1],
+            { opacity: 0, scaleX: 0.15, duration: 0.2, ease: "power2.out" },
+            0,
+          )
+          .to(
+            toggleLines[2],
+            { rotate: -45, y: -6, duration: 0.28, ease: "power3.out" },
+            0,
+          );
       }
 
       return () => timeline.kill();
@@ -205,9 +217,21 @@ export default function Navbar({
 
     if (toggleLines.length === 3) {
       timeline
-        .to(toggleLines[0], { rotate: 0, y: 0, duration: 0.24, ease: "power2.inOut" }, 0)
-        .to(toggleLines[1], { opacity: 1, scaleX: 1, duration: 0.2, ease: "power2.inOut" }, 0.06)
-        .to(toggleLines[2], { rotate: 0, y: 0, duration: 0.24, ease: "power2.inOut" }, 0);
+        .to(
+          toggleLines[0],
+          { rotate: 0, y: 0, duration: 0.24, ease: "power2.inOut" },
+          0,
+        )
+        .to(
+          toggleLines[1],
+          { opacity: 1, scaleX: 1, duration: 0.2, ease: "power2.inOut" },
+          0.06,
+        )
+        .to(
+          toggleLines[2],
+          { rotate: 0, y: 0, duration: 0.24, ease: "power2.inOut" },
+          0,
+        );
     }
 
     return () => timeline.kill();
@@ -249,7 +273,13 @@ export default function Navbar({
       .fromTo(
         index,
         { opacity: 0.32, x: 6 },
-        { opacity: 1, x: 0, duration: 0.3, ease: "power3.out", clearProps: "all" },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.3,
+          ease: "power3.out",
+          clearProps: "all",
+        },
         0.03,
       );
 
@@ -280,7 +310,7 @@ export default function Navbar({
             </span>
             <span className="brand-copy">
               <span className="brand-title">Subhramoy Bhowmik</span>
-              <span className="brand-subtitle">Frontend Engineer</span>
+              <span className="brand-subtitle">Software Developer</span>
             </span>
           </a>
 

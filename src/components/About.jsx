@@ -1,5 +1,5 @@
 import resumePdf from "../../asset/cv.pdf";
-import aboutImage from "../../asset/my.jpeg";
+import aboutImage from "../../asset/my photo.webp";
 import { socialLinks } from "../data/socialLinks";
 
 const principles = [
@@ -30,12 +30,28 @@ export default function About() {
                 loading="lazy"
                 decoding="async"
               />
+              <figcaption className="about-image-details">
+                <span>
+                  <strong>UI</strong>
+                  Systems
+                </span>
+                <span>
+                  <strong>8</strong>
+                  Live builds
+                </span>
+                <span>
+                  <strong>React</strong>
+                  Focus
+                </span>
+              </figcaption>
             </figure>
           </div>
 
           <div className="about-content" data-animate="fade-up">
             <div className="about-panel">
-              <p className="section-kicker">About / engineering point of view</p>
+              <p className="section-kicker">
+                About / development point of view
+              </p>
               <h2 className="section-title" data-scramble>
                 I care about interfaces that look intentional and behave
                 reliably
@@ -46,9 +62,9 @@ export default function About() {
               </p>
 
               <p>
-                I build front-end work with a simple standard: the interface
-                should be easy to scan, pleasant to use, and clear enough for
-                another developer to maintain.
+                I build web work with a simple standard: the interface should be
+                easy to scan, pleasant to use, and clear enough for another
+                developer to maintain.
               </p>
               <p>
                 With HTML, CSS, JavaScript, Bootstrap, and React, I like taking

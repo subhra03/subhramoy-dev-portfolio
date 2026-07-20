@@ -1,4 +1,3 @@
-import { navItems } from "../data/navigation";
 import { socialLinks } from "../data/socialLinks";
 
 export default function Footer({ year }) {
@@ -7,29 +6,18 @@ export default function Footer({ year }) {
       <div className="container">
         <div className="footer-shell">
           <div className="footer-main" data-footer-item>
-            <p className="footer-kicker">Frontend portfolio</p>
+            <p className="footer-kicker">Software developer portfolio</p>
             <p className="footer-copy">
-              Built with intention, shaped for usability, and refined for a
-              premium web experience.
+              Web experiences with clean structure, responsive detail, and
+              intentional motion.
             </p>
           </div>
 
-          <nav className="footer-nav" aria-label="Footer navigation">
-            {navItems.map((link, index) => (
-              <a
-                className="footer-nav-link"
-                href={link.href}
-                data-footer-item
-                key={link.href}
-              >
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          <div className="footer-connect" data-footer-item>
-            <p className="footer-connect-label">Connect</p>
+          <div className="footer-bottom" data-footer-item>
+            <p className="footer-meta">
+              <span id="year">{year}</span> Subhramoy Bhowmik. All rights
+              reserved.
+            </p>
             <div className="footer-social" aria-label="Social links">
               {socialLinks.map((link) => (
                 <a
@@ -38,6 +26,7 @@ export default function Footer({ year }) {
                   target="_blank"
                   rel="noreferrer"
                   data-footer-social
+                  aria-label={link.label}
                   key={link.label}
                 >
                   <span className="footer-social-icon" aria-hidden="true">
@@ -49,16 +38,10 @@ export default function Footer({ year }) {
                       </span>
                     )}
                   </span>
-                  <span className="footer-social-label">{link.label}</span>
                 </a>
               ))}
             </div>
           </div>
-
-          <p className="footer-meta" data-footer-item>
-            <span id="year">{year}</span> Subhramoy Bhowmik. React, Vite, CSS,
-            Bootstrap, GSAP, Lenis, and SplitType.
-          </p>
         </div>
       </div>
     </footer>

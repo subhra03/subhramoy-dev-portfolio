@@ -1,0 +1,101 @@
+.section-block {
+  position: relative;
+  padding: clamp(5rem, 8vw, 7.25rem) 0;
+}
+
+.section-block::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: max(1rem, calc((100vw - 1140px) / 2));
+  width: min(10rem, calc(100vw - 2rem));
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--emerald),
+    rgba(143, 214, 199, 0.82),
+    transparent
+  );
+  opacity: 0.46;
+}
+
+.section-block::after {
+  content: "";
+  position: absolute;
+  top: -0.35rem;
+  left: max(1rem, calc((100vw - 1140px) / 2));
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 2px solid var(--emerald);
+  border-radius: 999px;
+  background: var(--page-bg-mid);
+  box-shadow: 0 0 0 0.32rem rgba(15, 111, 92, 0.08);
+}
+
+#techstack {
+  padding-top: clamp(3rem, 5vw, 4.25rem);
+}
+
+.section-block--alt {
+  background: var(--bg-soft);
+}
+
+.section-head {
+  max-width: 58rem;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.section-kicker,
+.panel-label,
+.signal-label,
+.insight-label,
+.principle-label,
+.project-meta,
+.tech-index,
+.stack-summary-label,
+.social-caption {
+  display: inline-block;
+  color: var(--emerald);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.section-kicker {
+  display: block;
+  max-width: 100%;
+  margin: 0 0 0.8rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.section-title {
+  max-width: 14ch;
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 5vw, 4.1rem);
+  line-height: 1.04;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+.section-title[data-scramble] {
+  font-variant-ligatures: none;
+}
+
+.section-title[data-scramble].is-scrambling {
+  color: var(--emerald-dark);
+  text-shadow: 0 0 26px rgba(15, 111, 92, 0.16);
+}
+
+.section-subtitle {
+  max-width: 48rem;
+  margin: 1.2rem 0 0;
+  color: var(--muted);
+  font-size: 1.04rem;
+  line-height: 1.78;
+  overflow-wrap: break-word;
+}

@@ -1,4 +1,9 @@
-import { techStack } from "../data/techStack";
+import { techStack, techStackGroups } from "../data/techStack";
+
+const stackGroups = techStackGroups.map((group) => ({
+  ...group,
+  items: techStack.filter((item) => item.group === group.id),
+}));
 
 export default function TechStack() {
   return (
@@ -12,7 +17,7 @@ export default function TechStack() {
           <p className="section-subtitle">
             I keep the stack focused: semantic foundations, strong styling
             discipline, component thinking, and everyday tooling that supports
-            reliable front-end delivery.
+            reliable web delivery.
           </p>
         </div>
 
@@ -26,33 +31,42 @@ export default function TechStack() {
             </p>
           </div>
 
-          <div className="row g-3 g-lg-4" data-stagger>
-            {techStack.map((item, index) => (
-              <div
-                className="col-6 col-md-4 col-xl-3"
-                data-stagger-item
-                key={item.name}
-              >
-                <article className="tech-card">
-                  <span className="tech-index">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  {item.image ? (
-                    <img
-                      src={item.image}
-                      alt=""
-                      width="40"
-                      height="40"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  ) : (
-                    <i className={item.iconClass} aria-hidden="true"></i>
-                  )}
-                  <h3 className="tech-name">{item.name}</h3>
-                  <p className="tech-copy">{item.copy}</p>
-                </article>
-              </div>
+          <div className="stack-map" data-stagger>
+            {stackGroups.map((group) => (
+              <article className="stack-lane" data-stagger-item key={group.id}>
+                <header className="stack-lane-head">
+                  <span className="stack-lane-index">{group.index}</span>
+                  <div>
+                    <h3>{group.label}</h3>
+                    <p>{group.copy}</p>
+                  </div>
+                </header>
+
+                <div className="stack-tools">
+                  {group.items.map((item) => (
+                    <div className="stack-chip" key={item.name}>
+                      <span className="stack-chip-icon" aria-hidden="true">
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt=""
+                            width="32"
+                            height="32"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : (
+                          <i className={item.iconClass}></i>
+                        )}
+                      </span>
+                      <span>
+                        <strong>{item.name}</strong>
+                        <small>{item.copy}</small>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </article>
             ))}
           </div>
         </div>

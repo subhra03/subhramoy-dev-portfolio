@@ -1,4 +1,9 @@
-import { forwardRef, useImperativeHandle, useLayoutEffect, useRef } from "react";
+import {
+  forwardRef,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+} from "react";
 import gsap from "gsap";
 
 const closedTopPath = "M 0 0 V 0 Q 50 0 100 0 V 0 Z";
@@ -116,7 +121,13 @@ const CurveSwipe = forwardRef(function CurveSwipe(_, ref) {
         focusable="false"
       >
         <defs>
-          <linearGradient id="curveSwipeFill" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient
+            id="curveSwipeFill"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
             <stop offset="0%" stopColor="#07100e" />
             <stop offset="56%" stopColor="#10211d" />
             <stop offset="100%" stopColor="#0f6f5c" />
